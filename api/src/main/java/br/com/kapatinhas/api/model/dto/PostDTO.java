@@ -2,6 +2,20 @@ package br.com.kapatinhas.api.model.dto;
 
 import java.time.LocalDateTime;
 
-public record PostDTO (String user, LocalDateTime postDate, String description, String image) {
+import jakarta.validation.constraints.NotBlank;
+
+public record PostDTO (
+
+    Long id,
+    
+    @NotBlank
+    String user, 
+    
+    LocalDateTime postDate, 
+    
+    String description, 
+    
+    @NotBlank
+    String image) {
 
 }
