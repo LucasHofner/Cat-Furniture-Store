@@ -17,34 +17,34 @@ import org.springframework.web.server.ResponseStatusException;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import br.com.kapatinhas.api.model.CustomViewConfig;
-import br.com.kapatinhas.api.model.dto.PostDTO;
-import br.com.kapatinhas.api.services.PostService;
+import br.com.kapatinhas.api.model.dto.UserDTO;
+import br.com.kapatinhas.api.services.UserService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/post")
-public class PostController {
+@RequestMapping("/user")
+public class UserController {
 
     @Autowired
-    private PostService postService;
+    private UserService userService;
     
     @JsonView(CustomViewConfig.Public.class)
     @GetMapping("/find")
-    public ResponseEntity<Page<PostDTO>> findPosts(@PageableDefault(size = 10, sort = {"userName"}) Pageable pageable){
-        return ResponseEntity.ok(postService.findPosts(pageable));
+    public ResponseEntity<Page<UserDTO>> findUsers(@PageableDefault(size = 10, sort = {"userName"}) Pageable pageable){
+        return ResponseEntity.ok(userService.findAll(pageable));
     }
 
     @JsonView(CustomViewConfig.Internal.class)
     @PostMapping("/create")
-    public void createPost(@RequestBody @Valid PostDTO postDto){
-        postService.createPost(postDto);
+    public void createUser(@RequestBody @Valid UserDTO userDto){
+        userService.creatUser(userDto);
     }
 
     @JsonView(CustomViewConfig.Public.class)
     @DeleteMapping("/delete")
-    public ResponseEntity<PostDTO> deletePost(@RequestParam String uuid){
+    public ResponseEntity<UserDTO> deleteUser(@RequestParam String uuid){
         try{
-            return ResponseEntity.ok(postService.deletePost(uuid));
+            return ResponseEntity.ok(userService.deleteUser(uuid));
         } catch(ResponseStatusException e){
             return ResponseEntity.notFound().build();
         }
